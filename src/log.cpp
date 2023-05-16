@@ -92,7 +92,7 @@ void Log::init()
   //Creating settings file or reading
   if(!fileExists(SD, settingsPath))
   {
-    writeFile(SD, settingsPath, "2.0,40.0,50.0,3600.0\n");
+    writeFile(SD, settingsPath, "3.0,200.0,100.0,3589.9\n");
   }
   else{
     String settings = readFileLine(SD, settingsPath);

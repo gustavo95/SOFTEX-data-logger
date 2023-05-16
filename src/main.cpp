@@ -70,9 +70,9 @@ void ADS8668Init();
 double getADS8668Data(int adcNum, int adcCH);
 void convertAllData();
 double convert2Bytes(byte hiByte, byte loByte);
-double adcread5ToCurrent10(double adcread);
+double adcread5ToCurrent15(double adcread);
 double adcread10ToVoltage500(double adcread);
-double adcread10ToVoltage400(double adcread);
+double adcread10ToVoltage1000(double adcread);
 double adcread5ToVoltage250(double adcread);
 double adcread5ToPower9k(double adcread);
 
@@ -121,9 +121,9 @@ void readDataCode( void * parameter) {
         for(int j = 0; j < 8; j++){
           double adc_data = getADS8668Data(i, j);
           if((i < 2) || ((i == 2) && (j<4))){
-            dataAVG[k] += adcread5ToCurrent10(adc_data);
+            dataAVG[k] += adcread5ToCurrent15(adc_data);
           }else if(i < 5){
-            dataAVG[k] += adcread10ToVoltage400(adc_data);
+            dataAVG[k] += adcread10ToVoltage1000(adc_data);
           }else{
             dataAVG[k] += adcread5ToPower9k(adc_data);
           }
@@ -573,23 +573,23 @@ double convert2Bytes(byte hiByte, byte loByte)
   return value;
 }
 
-double adcread5ToCurrent10(double adcread)
+double adcread5ToCurrent15(double adcread)
 {
-  // return (adcread*10.0/5.0);
+  // return (adcread*15.0/5.0);
   return (adcread*myLog.getSettings()[0]);
 }
 
-double adcread10ToVoltage400(double adcread)
+double adcread10ToVoltage1000(double adcread)
 {
-  // return (adcread*400.0/5.0);
-  // return adcread*69.4;
+  // return (adcread*1000/5.0);
+  // return adcread*200;
   return (adcread*myLog.getSettings()[1]);
 }
 
 double adcread10ToVoltage500(double adcread)
 {
   // return (adcread*500.0/5.0);
-  // return adcread*97.3;
+  // return adcread*100;
   return (adcread*myLog.getSettings()[2]);
 }
 
