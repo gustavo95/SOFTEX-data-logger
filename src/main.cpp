@@ -75,6 +75,7 @@ double adcread10ToVoltage500(double adcread);
 double adcread10ToVoltage1000(double adcread);
 double adcread5ToVoltage250(double adcread);
 double adcread5ToPower9k(double adcread);
+double adcread5toPower37k5(double adcread);
 
 //Functions declaration
 //Print logo
@@ -125,7 +126,7 @@ void readDataCode( void * parameter) {
           }else if(i < 5){
             dataAVG[k] += adcread10ToVoltage1000(adc_data);
           }else{
-            dataAVG[k] += adcread5ToPower9k(adc_data);
+            dataAVG[k] += adcread5toPower37k5(adc_data);
           }
           k++;
         }
@@ -158,11 +159,11 @@ void readDataCode( void * parameter) {
                   average = 6553.5;
                 }
               }else{
-                if(average < -9000){
-                  average = -9000;
+                if(average < 0){
+                  average = 0;
                 }
-                if(average > 9000){
-                  average = 9000;
+                if(average > 37500){
+                  average = 37500;
                 }
               }
               data_string += String(average) + ",";
@@ -603,4 +604,12 @@ double adcread5ToPower9k(double adcread)
   // return ((adcread-2.5)*9000.0/2.5);
   // return -((adcread*3589.9)-9000.0);
   return ((adcread*myLog.getSettings()[3])-9000.0);
+}
+
+double adcread5toPower37k5(double adcread)
+{
+  Serial.println(adcread);
+  double power = 11782.0*pow(adcread, 0.946);
+  Serial.println(power);
+  return (power);
 }
